@@ -23,7 +23,7 @@ export function DailyPlannerWidget() {
       } else if (data.error) {
         setError(data.error)
       }
-    } catch (_) {
+    } catch {
       setError('Failed to load plan')
     } finally {
       setLoading(false)
@@ -45,7 +45,7 @@ export function DailyPlannerWidget() {
       if (!res.ok) {
         throw new Error('Failed to update')
       }
-    } catch (_) {
+    } catch {
       // Revert on error
       setItems((prev) =>
         prev.map((i) => (i.id === itemId ? { ...i, completed: currentStatus } : i))
