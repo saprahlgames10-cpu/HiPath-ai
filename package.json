@@ -10,7 +10,6 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@google/genai": "^2.10.0",
     "@prisma/client": "^5.22.0",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",
@@ -20,6 +19,7 @@
     "inngest": "^4.11.0",
     "lucide-react": "^1.21.0",
     "next": "14.2.35",
+    "openai": "^6.45.0",
     "prisma": "^5.22.0",
     "react": "^18",
     "react-dom": "^18",

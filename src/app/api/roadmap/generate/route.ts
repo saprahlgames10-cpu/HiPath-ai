@@ -1,14 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { GoogleGenAI } from '@google/genai'
+import OpenAI from 'openai'
 import { z } from 'zod'
 import { RoadmapSchema } from '@/types/roadmap'
 import { prisma } from '@/lib/prisma'
 import { inngest } from '@/server/inngest/client'
 import { createClient } from '@/lib/supabase/server'
 
-
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
+const client = new OpenAI({
+  baseURL: 'https://openrouter.ai/api/v1',
+  apiKey: process.env.OPENROUTER_API_KEY,
+  defaultHeaders: {
+    'HTTP-Referer': 'https://hipath-ai.vercel.app',
+    'X-Title': 'HiPath AI',
+  },
 })
 
 export async function POST(req: NextRequest) {
@@ -70,23 +74,30 @@ export async function POST(req: NextRequest) {
 
     while (attempts < 2) {
       try {
-        const response = await ai.models.generateContent({
-          model: 'gemini-2.5-flash',
-          contents: systemPrompt,
-          config: {
-            temperature: 0.2,
-            responseMimeType: 'application/json',
-            systemInstruction: "You output strictly valid JSON matching the requested schema. No markdown formatting."
-          }
+        const completion = await client.chat.completions.create({
+          model: 'meta-llama/llama-3.3-70b-instruct:free',
+          messages: [
+            {
+              role: 'system',
+              content: 'You output strictly valid JSON matching the requested schema. No markdown formatting, no code blocks, just raw JSON.'
+            },
+            {
+              role: 'user',
+              content: systemPrompt
+            }
+          ],
+          temperature: 0.2,
+          response_format: { type: 'json_object' },
         })
-        let content = response.text || ''
-        
+
+        let content = completion.choices[0]?.message?.content || ''
+
         // Strip markdown code blocks if the model wrapped the JSON
         content = content.replace(/^```json\s*/, '').replace(/```\s*$/, '').trim()
 
         // Attempt to parse json
         generatedJson = JSON.parse(content)
-        
+
         // Validate with Zod
         RoadmapSchema.parse(generatedJson)
         break // Success
