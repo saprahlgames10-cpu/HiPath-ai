@@ -7,12 +7,7 @@ import { inngest } from '@/server/inngest/client'
 import { createClient } from '@/lib/supabase/server'
 
 const client = new OpenAI({
-  baseURL: 'https://openrouter.ai/api/v1',
-  apiKey: process.env.OPENROUTER_API_KEY,
-  defaultHeaders: {
-    'HTTP-Referer': 'https://hipath-ai.vercel.app',
-    'X-Title': 'HiPath AI',
-  },
+  apiKey: process.env.OPENAI_API_KEY,
 })
 
 export async function POST(req: NextRequest) {
@@ -75,7 +70,7 @@ Return ONLY valid JSON matching this exact schema:
     while (attempts < 2) {
       try {
         const completion = await client.chat.completions.create({
-          model: 'meta-llama/llama-3.3-70b-instruct:free',
+          model: 'gpt-4o-mini',
           messages: [
             {
               role: 'system',
