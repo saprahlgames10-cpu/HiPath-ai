@@ -79,18 +79,22 @@ export async function POST(req: NextRequest) {
             systemInstruction: "You output strictly valid JSON matching the requested schema. No markdown formatting."
           }
         })
+        let content = response.text || ''
+        
+        // Strip markdown code blocks if the model wrapped the JSON
+        content = content.replace(/^```json\s*/, '').replace(/```\s*$/, '').trim()
 
-        const content = response.text || ''
         // Attempt to parse json
         generatedJson = JSON.parse(content)
         
         // Validate with Zod
         RoadmapSchema.parse(generatedJson)
         break // Success
-      } catch (err) {
+      } catch (err: unknown) {
         lastError = err
         attempts++
-        console.error(`Attempt ${attempts} failed:`, err)
+        const errorMsg = err instanceof Error ? err.message : String(err)
+        console.error(`Attempt ${attempts} failed:`, errorMsg)
       }
     }
 
