@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Flame, PlayCircle, Map, BrainCircuit, ArrowRight } from 'lucide-react'
 import { WeeklyGoalChart } from '@/components/dashboard/WeeklyGoalChart'
+import { DailyPlannerWidget } from '@/components/dashboard/DailyPlannerWidget'
 
 export const dynamic = 'force-dynamic';
 
@@ -94,6 +95,10 @@ export default async function DashboardPage() {
 
         {/* Left Column (2/3 width) - Focus and Roadmaps */}
         <div className="lg:col-span-2 space-y-8">
+
+          <section>
+            <DailyPlannerWidget />
+          </section>
 
           <section>
             <h2 className="text-xl font-bold font-heading mb-4 flex items-center gap-2">
