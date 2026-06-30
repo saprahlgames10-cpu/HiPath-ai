@@ -23,7 +23,7 @@ export function DailyPlannerWidget() {
       } else if (data.error) {
         setError(data.error)
       }
-    } catch (err) {
+    } catch (_) {
       setError('Failed to load plan')
     } finally {
       setLoading(false)
@@ -45,7 +45,7 @@ export function DailyPlannerWidget() {
       if (!res.ok) {
         throw new Error('Failed to update')
       }
-    } catch (err) {
+    } catch (_) {
       // Revert on error
       setItems((prev) =>
         prev.map((i) => (i.id === itemId ? { ...i, completed: currentStatus } : i))
@@ -65,10 +65,10 @@ export function DailyPlannerWidget() {
     return (
       <div className="bg-card rounded-2xl border p-6 shadow-sm col-span-full xl:col-span-1">
         <div className="pb-4">
-          <h3 className="text-xl font-bold font-heading">Today's Plan</h3>
+          <h3 className="text-xl font-bold font-heading">Today&apos;s Plan</h3>
         </div>
         <div>
-          <p className="text-sm text-destructive">{error}</p>
+              <p className="text-sm text-destructive">{error}</p>
         </div>
       </div>
     )
@@ -82,7 +82,7 @@ export function DailyPlannerWidget() {
     <div className="bg-card rounded-2xl border p-6 shadow-sm col-span-full xl:col-span-1 flex flex-col">
       <div className="pb-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-bold font-heading">Today's Plan</h3>
+          <h3 className="text-xl font-bold font-heading">Today&apos;s Plan</h3>
           <span className="text-sm font-medium text-muted-foreground">
             {completedCount} / {totalCount} completed
           </span>

@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
 
     // Update the item
     let allCompleted = true
-    const updatedItems = (existingPlan.items as any as PlanItem[]).map((item) => {
+    const updatedItems = (existingPlan.items as PlanItem[]).map((item) => {
       if (item.id === itemId) {
         item.completed = completed
       }
@@ -54,13 +54,13 @@ export async function POST(req: NextRequest) {
     const updatedPlan = await prisma.dailyPlan.update({
       where: { id: existingPlan.id },
       data: {
-        items: updatedItems as any,
+        items: updatedItems as PlanItem[],
         isCompleted: allCompleted,
       },
     })
 
     return NextResponse.json({ success: true, plan: updatedPlan })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Failed to update daily plan:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }

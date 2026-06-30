@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { createClient } from '@/lib/supabase/server'
 
@@ -11,7 +11,7 @@ export type PlanItem = {
   completed: boolean
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
@@ -123,13 +123,13 @@ export async function GET(req: NextRequest) {
       data: {
         userId,
         date: today,
-        items: planItems as any,
+        items: planItems as PlanItem[],
         isCompleted: false,
       },
     })
 
     return NextResponse.json({ plan: newPlan })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Failed to generate daily plan:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
