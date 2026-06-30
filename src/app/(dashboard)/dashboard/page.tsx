@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -7,7 +7,7 @@ import { WeeklyGoalChart } from '@/components/dashboard/WeeklyGoalChart'
 
 export const dynamic = 'force-dynamic';
 
-const prisma = new PrismaClient()
+
 
 function getGreeting() {
   const hour = new Date().getHours()

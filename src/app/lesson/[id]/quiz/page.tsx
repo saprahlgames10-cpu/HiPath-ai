@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 import { QuizEngine } from '@/components/quiz/QuizEngine'
 
-const prisma = new PrismaClient()
+
 
 export default async function QuizPage({ params }: { params: { id: string } }) {
   const lesson = await prisma.lesson.findUnique({

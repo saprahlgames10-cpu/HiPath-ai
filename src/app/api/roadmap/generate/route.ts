@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { GoogleGenAI } from '@google/genai'
 import { z } from 'zod'
 import { RoadmapSchema } from '@/types/roadmap'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 import { inngest } from '@/server/inngest/client'
 import { createClient } from '@/lib/supabase/server'
 
-const prisma = new PrismaClient()
+
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 })

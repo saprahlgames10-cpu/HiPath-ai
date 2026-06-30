@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 import { LessonPlayer } from '@/components/lesson/LessonPlayer'
 
 export const dynamic = 'force-dynamic';
 
-const prisma = new PrismaClient()
+
 
 export default async function LessonPage({ params }: { params: { id: string } }) {
   const lesson = await prisma.lesson.findUnique({
