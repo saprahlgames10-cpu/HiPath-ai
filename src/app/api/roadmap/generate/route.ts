@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Anthropic from '@anthropic-ai/sdk'
+import { GoogleGenAI } from '@google/genai'
 import { z } from 'zod'
 import { RoadmapSchema } from '@/types/roadmap'
 import { PrismaClient } from '@prisma/client'
@@ -7,8 +7,8 @@ import { inngest } from '@/server/inngest/client'
 import { createClient } from '@/lib/supabase/server'
 
 const prisma = new PrismaClient()
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
 })
 
 export async function POST(req: NextRequest) {
@@ -70,17 +70,17 @@ export async function POST(req: NextRequest) {
 
     while (attempts < 2) {
       try {
-        const msg = await anthropic.messages.create({
-          model: 'claude-3-haiku-20240307', // Using haiku for speed
-          max_tokens: 4000,
-          temperature: 0.2,
-          system: "You output strictly valid JSON matching the requested schema. No markdown formatting.",
-          messages: [
-            { role: 'user', content: systemPrompt }
-          ]
+        const response = await ai.models.generateContent({
+          model: 'gemini-2.5-flash',
+          contents: systemPrompt,
+          config: {
+            temperature: 0.2,
+            responseMimeType: 'application/json',
+            systemInstruction: "You output strictly valid JSON matching the requested schema. No markdown formatting."
+          }
         })
 
-        const content = msg.content[0].type === 'text' ? msg.content[0].text : ''
+        const content = response.text || ''
         // Attempt to parse json
         generatedJson = JSON.parse(content)
         

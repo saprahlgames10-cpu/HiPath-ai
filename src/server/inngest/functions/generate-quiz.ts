@@ -7,7 +7,7 @@ export const generateQuizQuestions = inngest.createFunction(
     const { roadmapId } = event.data
 
     await step.run('generate-questions', async () => {
-      // Placeholder — full Anthropic integration would generate quiz questions per lesson
+      // Placeholder — full Google Gemini integration would generate quiz questions per lesson
       console.log(`Generating quiz questions for roadmap: ${roadmapId}`)
       await new Promise(resolve => setTimeout(resolve, 2000))
     })
