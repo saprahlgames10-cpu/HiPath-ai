@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { BrainCircuit } from 'lucide-react'
 
+export const dynamic = 'force-dynamic';
+
 const prisma = new PrismaClient()
 
 export default async function WeaknessesPage() {

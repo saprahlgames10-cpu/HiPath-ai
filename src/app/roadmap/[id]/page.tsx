@@ -3,6 +3,8 @@ import { PrismaClient } from '@prisma/client'
 import { CheckCircle2, Lock, PlayCircle, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
+export const dynamic = 'force-dynamic';
+
 const prisma = new PrismaClient()
 
 export default async function RoadmapViewerPage({ params }: { params: { id: string } }) {

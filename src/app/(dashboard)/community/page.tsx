@@ -4,6 +4,8 @@ import { formatDistanceToNow } from 'date-fns'
 import { CheckCircle, Trophy, Users } from 'lucide-react'
 import { KudosButton } from '@/components/dashboard/KudosButton'
 
+export const dynamic = 'force-dynamic';
+
 const prisma = new PrismaClient()
 
 export default async function CommunityFeedPage() {

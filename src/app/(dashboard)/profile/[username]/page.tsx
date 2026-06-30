@@ -3,6 +3,8 @@ import { PrismaClient } from '@prisma/client'
 import { Flame, Map, Trophy, Calendar } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 
+export const dynamic = 'force-dynamic';
+
 const prisma = new PrismaClient()
 
 export default async function PublicProfilePage({ params }: { params: { username: string } }) {

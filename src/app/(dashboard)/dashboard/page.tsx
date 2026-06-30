@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { Flame, PlayCircle, Map, BrainCircuit, ArrowRight } from 'lucide-react'
 import { WeeklyGoalChart } from '@/components/dashboard/WeeklyGoalChart'
 
+export const dynamic = 'force-dynamic';
+
 const prisma = new PrismaClient()
 
 function getGreeting() {
