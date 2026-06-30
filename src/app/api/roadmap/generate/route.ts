@@ -30,42 +30,42 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    const systemPrompt = `You are a world-class learning architect. Generate a highly structured, week-by-week learning roadmap for the following user.
-    Goal: ${goal}
-    Timeline: ${timeline.replace('_', ' ')}
-    Hours per week: ${hoursPerWeek.replace('_', ' ')}
-    Knowledge Level: ${level.replace('_', ' ')}
-    Preferred Formats: ${formats.join(', ')}
+    const systemPrompt = `Generate a basic, precise learning roadmap in JSON format.
+Goal: ${goal}
+Timeline: ${timeline.replace('_', ' ')}
+Hours/week: ${hoursPerWeek.replace('_', ' ')}
+Level: ${level.replace('_', ' ')}
+Formats: ${formats.join(', ')}
 
-    Return ONLY valid JSON matching the exact schema below. Do not include markdown blocks or any other text.
+Return ONLY valid JSON matching this exact schema:
+{
+  "title": "Roadmap title",
+  "skillPrerequisites": ["prereq1"],
+  "weeks": [
     {
-      "title": "string (Catchy title for the roadmap)",
-      "skillPrerequisites": ["string"],
-      "weeks": [
+      "weekNumber": 1,
+      "theme": "Week theme",
+      "lessons": [
         {
-          "weekNumber": number (sequential, starting at 1),
-          "theme": "string (Theme of the week)",
-          "lessons": [
+          "title": "Lesson title",
+          "description": "Brief description",
+          "estimatedMins": 30,
+          "conceptTags": ["tag1"],
+          "resources": [
             {
-              "title": "string",
-              "description": "string",
-              "estimatedMins": number (approximate time in minutes),
-              "conceptTags": ["string"],
-              "resources": [
-                {
-                  "title": "string",
-                  "url": "string (A placeholder valid URL if you don't have an exact one, e.g. https://example.com/topic)",
-                  "type": "VIDEO | ARTICLE | COURSE | BOOK | PROJECT | DOCUMENTATION",
-                  "platform": "string",
-                  "isPaid": boolean,
-                  "durationMins": number
-                }
-              ]
+              "title": "Resource title",
+              "url": "https://example.com",
+              "type": "VIDEO | ARTICLE | COURSE | BOOK | PROJECT | DOCUMENTATION",
+              "platform": "Platform name",
+              "isPaid": false,
+              "durationMins": 30
             }
           ]
         }
       ]
-    }`
+    }
+  ]
+}`
 
     // We will attempt generation up to 2 times
     let generatedJson: unknown = null
