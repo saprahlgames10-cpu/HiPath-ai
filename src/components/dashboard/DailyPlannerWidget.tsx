@@ -1,8 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { CheckCircle2, Circle, BookOpen, Clock, Loader2, Dumbbell, FolderGit2 } from 'lucide-react'
 import { PlanItem } from '@/app/api/daily-plan/route'
 import Link from 'next/link'
@@ -57,22 +55,22 @@ export function DailyPlannerWidget() {
 
   if (loading) {
     return (
-      <Card className="col-span-full xl:col-span-1 shadow-sm h-full flex items-center justify-center min-h-[300px]">
+      <div className="bg-card rounded-2xl border p-6 shadow-sm col-span-full xl:col-span-1 h-full flex items-center justify-center min-h-[300px]">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </Card>
+      </div>
     )
   }
 
   if (error) {
     return (
-      <Card className="col-span-full xl:col-span-1 shadow-sm">
-        <CardHeader>
-          <CardTitle>Today's Plan</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="bg-card rounded-2xl border p-6 shadow-sm col-span-full xl:col-span-1">
+        <div className="pb-4">
+          <h3 className="text-xl font-bold font-heading">Today's Plan</h3>
+        </div>
+        <div>
           <p className="text-sm text-destructive">{error}</p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     )
   }
 
@@ -81,22 +79,22 @@ export function DailyPlannerWidget() {
   const progressPercent = totalCount === 0 ? 0 : (completedCount / totalCount) * 100
 
   return (
-    <Card className="col-span-full xl:col-span-1 shadow-sm flex flex-col">
-      <CardHeader className="pb-4">
+    <div className="bg-card rounded-2xl border p-6 shadow-sm col-span-full xl:col-span-1 flex flex-col">
+      <div className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle>Today's Plan</CardTitle>
+          <h3 className="text-xl font-bold font-heading">Today's Plan</h3>
           <span className="text-sm font-medium text-muted-foreground">
             {completedCount} / {totalCount} completed
           </span>
         </div>
-        <div className="h-2 w-full bg-secondary rounded-full overflow-hidden mt-2">
+        <div className="h-2 w-full bg-secondary rounded-full overflow-hidden mt-4">
           <div 
             className="h-full bg-primary transition-all duration-500 ease-in-out" 
             style={{ width: `${progressPercent}%` }}
           />
         </div>
-      </CardHeader>
-      <CardContent className="flex-1 overflow-auto">
+      </div>
+      <div className="flex-1 overflow-auto mt-2">
         {items.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
             <p>No plan for today. You deserve a break!</p>
@@ -147,7 +145,7 @@ export function DailyPlannerWidget() {
             ))}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
